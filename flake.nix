@@ -9,13 +9,22 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
-        image = pkgs.dockerTools.pullImage {
-          imageName = "nixos/nix";
-          imageDigest = "sha256:24196c350d146529a4101edea9c82129308640b500ebbc01d225ad36b6322cb6";
-          hash = "sha256-NIg59VsYDql6RSAdfqm94+3HDucexGdipFwWYxDhsWU=";
-          finalImageName = "nixos/nix";
-          finalImageTag = "2.31.1";
-        };
+        image =
+          let
+            hashes = {
+              "x86_64-linux" = "sha256-NIg59VsYDql6RSAdfqm94+3HDucexGdipFwWYxDhsWU=";
+              "x86_64-darwin" = hashes."x86_64-linux";
+              "aarch64-linux" = "sha256-tAj7Eax/B46NKn0uUR/KMyna4tJhYvs/8YgYuiTtK5Q=";
+              "aarch64-darwin" = hashes."aarch64-linux";
+             };
+          in
+          pkgs.dockerTools.pullImage {
+            imageName = "nixos/nix";
+            imageDigest = "sha256:24196c350d146529a4101edea9c82129308640b500ebbc01d225ad36b6322cb6";
+            hash = hashes.${system};
+            finalImageName = "nixos/nix";
+            finalImageTag = "2.31.1";
+          };
 
         imageGz = image.overrideAttrs (final: prev: {
           buildCommand = prev.buildCommand + ''
