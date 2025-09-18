@@ -12,7 +12,7 @@
         image = pkgs.dockerTools.pullImage {
           imageName = "nixos/nix";
           imageDigest = "sha256:24196c350d146529a4101edea9c82129308640b500ebbc01d225ad36b6322cb6";
-          hash = "sha256-tAj7Eax/B46NKn0uUR/KMyna4tJhYvs/8YgYuiTtK5Q=";
+          hash = "sha256-NIg59VsYDql6RSAdfqm94+3HDucexGdipFwWYxDhsWU=";
           finalImageName = "nixos/nix";
           finalImageTag = "2.31.1";
         };
